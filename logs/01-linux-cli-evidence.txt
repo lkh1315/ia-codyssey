@@ -1,0 +1,24 @@
+=== CURRENT DIRECTORY ===
+/home/user/projects/ia-codyssey
+=== FILE LIST ===
+total 32
+drwxr-xr-x 6 user user 4096 Nov 15 21:29 .
+drwxr-xr-x 3 user user 4096 Nov  8 23:04 ..
+drwxr-xr-x 7 user user 4096 Nov 15 21:18 .git
+-rw-r--r-- 1 user user  119 Nov 15 21:29 Dockerfile
+-rw-r--r-- 1 user user   90 Nov  8 23:04 README.md
+drwxr-xr-x 2 user user 4096 Nov 15 21:29 app
+drwxr-xr-x 2 user user 4096 Nov 15 21:44 logs
+drwxr-xr-x 3 user user 4096 Nov  8 23:23 practice
+=== DIRECTORY MOVEMENT ===
+/home/user/projects/ia-codyssey/practice/linux-cli
+/home/user/projects/ia-codyssey
+=== FILE PERMISSION BEFORE ===
+-rw-r--r-- 1 user user 15 Nov  8 23:24 practice/linux-cli/hello.txt
+=== FILE PERMISSION CHANGE ===
+-rwxr-xr-x 1 user user 15 Nov  8 23:24 practice/linux-cli/hello.txt
+=== FILE PERMISSION RESTORE ===
+-rw-r--r-- 1 user user 15 Nov  8 23:24 practice/linux-cli/hello.txt
+=== DIRECTORY PERMISSION TEST ===
+drwx------ 2 user user 4096 Nov  8 23:44 practice/linux-cli/permission-test
+drwxr-xr-x 2 user user 4096 Nov  8 23:44 practice/linux-cli/permission-test

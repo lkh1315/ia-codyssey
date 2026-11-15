@@ -1,0 +1,55 @@
+$ docker ps
+CONTAINER ID   IMAGE                 COMMAND                  CREATED          STATUS          PORTS                                     NAMES
+1eab8e16b2cb   ubuntu:24.04          "sleep infinity"         5 minutes ago    Up 5 minutes                                              codyssey-volume-2
+50be94b68c0b   ia-codyssey-web:1.0   "/docker-entrypoint.…"   9 minutes ago    Up 9 minutes    0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   codyssey-bind
+ceaa30fe3fab   ia-codyssey-web:1.0   "/docker-entrypoint.…"   12 minutes ago   Up 12 minutes   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   codyssey-web
+$ docker images
+IMAGE                 ID             DISK USAGE   CONTENT SIZE   EXTRA
+hello-world:latest    c567b231f656       25.9kB         9.49kB   U
+ia-codyssey-web:1.0   0a0f322568c4       93.7MB         26.4MB   U
+ubuntu:24.04          fe81560990fa        119MB         31.7MB   U
+$ curl -i http://localhost:8080
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+  0      0   0      0   0      0      0      0                              0100    261 100    261   0      0 243.6k      0                              0100    261 100    261   0      0 225.3k      0                              0100    261 100    261   0      0 213.4k      0                              0
+HTTP/1.1 200 OK
+Server: nginx/1.31.8
+Date: Sun, 15 Nov 2026 12:43:33 GMT
+Content-Type: text/html
+Content-Length: 261
+Last-Modified: Sun, 15 Nov 2026 12:29:17 GMT
+Connection: keep-alive
+ETag: "6af9a59d-105"
+Accept-Ranges: bytes
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Codyssey Docker Web</title>
+</head>
+<body>
+  <h1>AI Codyssey Docker Web Server</h1>
+  <p>Custom NGINX Docker Image Test</p>
+  <p>Environment: WSL2 + Docker Desktop</p>
+</body>
+</html>
+$ docker logs --tail 15 codyssey-web
+2026/11/15 12:32:32 [error] 31#31: *4 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/?utm_source=chatgpt.com"
+172.17.0.1 - - [15/Nov/2026:12:32:32 +0000] "GET /favicon.ico HTTP/1.1" 404 555 "http://localhost:8080/?utm_source=chatgpt.com" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:34:36 +0000] "GET /?utm_source=chatgpt.com HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:34:38 +0000] "GET /?utm_source=chatgpt.com HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:35:10 +0000] "GET /?utm_source=chatgpt.com HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:35:11 +0000] "GET /?utm_source=chatgpt.com HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:35:11 +0000] "GET /?utm_source=chatgpt.com HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:35:26 +0000] "GET / HTTP/1.1" 200 261 "-" "curl/8.18.0" "-"
+172.17.0.1 - - [15/Nov/2026:12:36:05 +0000] "GET /?utm_source=chatgpt.com HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:36:06 +0000] "GET /?utm_source=chatgpt.com HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:36:06 +0000] "GET /?utm_source=chatgpt.com HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:36:06 +0000] "GET /?utm_source=chatgpt.com HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:36:07 +0000] "GET /?utm_source=chatgpt.com HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:36:30 +0000] "GET /?utm_source=chatgpt.com HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [15/Nov/2026:12:43:33 +0000] "GET / HTTP/1.1" 200 261 "-" "curl/8.18.0" "-"
+$ docker stats --no-stream codyssey-web
+CONTAINER ID   NAME           CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O        PIDS
+ceaa30fe3fab   codyssey-web   0.00%     22.12MiB / 15.47GiB   0.14%     20.7kB / 11.9kB   553kB / 12.3kB   29

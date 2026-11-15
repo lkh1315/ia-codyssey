@@ -1,0 +1,32 @@
+$ docker inspect codyssey-bind
+[{"Type":"bind","Source":"/home/user/projects/ia-codyssey/app","Destination":"/usr/share/nginx/html","Mode":"","RW":false,"Propagation":"rprivate"}]
+$ curl -s http://localhost:8080
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Codyssey Docker Web</title>
+</head>
+<body>
+  <h1>AI Codyssey Docker Web Server</h1>
+  <p>Custom NGINX Docker Image Test</p>
+  <p>Environment: WSL2 + Docker Desktop</p>
+</body>
+</html>
+$ curl -s http://localhost:8081
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Codyssey Docker Web</title>
+</head>
+<body>
+  <h1>AI Codyssey Docker Web Server</h1>
+  <p>Custom NGINX Docker Image Test</p>
+  <p>Environment: WSL2 + Docker Desktop</p>
+</body>
+</html>
+<p>Bind Mount Test: Updated Successfully</p>
+$ diff between ports
+12a13
+> <p>Bind Mount Test: Updated Successfully</p>

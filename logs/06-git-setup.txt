@@ -1,0 +1,12 @@
+=== GIT VERSION ===
+git version 2.53.0
+=== GIT CONFIG (SELECTED) ===
+user.name=lkh1315
+user.email=[REDACTED]
+init.defaultbranch=main
+remote.origin.url=https://github.com/lkh1315/ia-codyssey.git
+=== BRANCH ===
+main
+=== REMOTE ===
+origin	https://github.com/lkh1315/ia-codyssey.git (fetch)
+origin	https://github.com/lkh1315/ia-codyssey.git (push)

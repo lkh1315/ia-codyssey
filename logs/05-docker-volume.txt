@@ -1,0 +1,24 @@
+$ docker volume ls
+DRIVER    VOLUME NAME
+local     codyssey-data
+$ docker ps -a
+CONTAINER ID   IMAGE                 COMMAND                  CREATED          STATUS                      PORTS                                     NAMES
+1eab8e16b2cb   ubuntu:24.04          "sleep infinity"         4 minutes ago    Up 4 minutes                                                          codyssey-volume-2
+50be94b68c0b   ia-codyssey-web:1.0   "/docker-entrypoint.…"   8 minutes ago    Up 8 minutes                0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   codyssey-bind
+ceaa30fe3fab   ia-codyssey-web:1.0   "/docker-entrypoint.…"   11 minutes ago   Up 11 minutes               0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   codyssey-web
+7ec483bcc576   ubuntu:24.04          "bash"                   6 days ago       Exited (0) 16 minutes ago                                             codyssey-ubuntu
+6a54b4efd259   hello-world           "/hello"                 6 days ago       Exited (0) 6 days ago                                                 busy_goldberg
+$ docker volume inspect codyssey-data
+[
+    {
+        "CreatedAt": "2026-11-15T12:36:48Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/codyssey-data/_data",
+        "Name": "codyssey-data",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+$ docker exec codyssey-volume-2 cat /data/hello.txt
+AI Codyssey Persistent Data
