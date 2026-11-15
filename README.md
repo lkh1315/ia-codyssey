@@ -280,3 +280,103 @@ curl http://localhost:8080
 | Docker 볼륨 | [검증 로그](logs/05-docker-volume.txt) |
 | Git 설정 | [검증 로그](logs/06-git-setup.txt) |
 | 브라우저 접속 | [스크린샷](evidence/web-8080.png) |
+
+
+## 13. 프로젝트 디렉터리 구조 및 설계 기준
+
+프로젝트는 관심사 분리, 재현성, 추적 가능성을 기준으로 구성했다.
+
+| 경로 | 역할 | 설계 목적 |
+|---|---|---|
+| Dockerfile | 커스텀 이미지 빌드 설정 | 실행 환경 표준화 |
+| app/ | HTML 웹 콘텐츠 | 애플리케이션 코드 관리 |
+| practice/ | Linux CLI 실습 | 학습 실습과 서비스 코드 분리 |
+| logs/ | 실제 명령 및 출력 결과 | 검증과 추적 가능성 확보 |
+| evidence/ | 브라우저 및 화면 캡처 | 시각적 검증 |
+| README.md | 실행 및 검증 절차 | 환경 재현성 확보 |
+| .gitignore | Git 추적 제외 설정 | 불필요한 파일 관리 |
+
+## 14. Docker 네트워크 네임스페이스와 포트 포워딩
+
+Docker의 기본 bridge 네트워크를 사용하는 컨테이너는
+독립된 네트워크 네임스페이스를 사용한다.
+
+네트워크 네임스페이스는 네트워크 인터페이스,
+IP 주소, 라우팅 테이블 및 포트 공간을 격리한다.
+
+따라서 컨테이너 내부의 NGINX가 80번 포트에서
+실행되더라도 호스트에서 자동으로 접근할 수는 없다.
+
+호스트에서 접근하려면 포트를 게시해야 한다.
+
+예시:
+
+    docker run -d --name codyssey-web \
+      -p 8080:80 ia-codyssey-web:1.0
+
+- 8080: 호스트 포트
+- 80: 컨테이너 포트
+- -p: 호스트와 컨테이너의 포트 매핑 설정
+
+Docker는 포트 게시를 통해 호스트 8080으로 들어오는
+연결을 컨테이너의 80번 포트로 전달한다.
+
+검증:
+
+    curl -i http://localhost:8080
+
+실제 결과: HTTP/1.1 200 OK
+
+관련 증거:
+- [Docker 웹 서버 검증](logs/03-docker-web.txt)
+- [Docker 이미지 빌드 로그](logs/07-docker-build.txt)
+
+## 15. Docker 포트 충돌 진단 및 해결
+
+### 1단계: Docker 컨테이너 확인
+
+    docker ps --format "table {{.Names}}\t{{.Ports}}"
+
+현재 실행 중인 컨테이너가 8080 포트를 사용하는지 확인한다.
+
+### 2단계: 포트 점유 확인
+
+    ss -ltnp | grep ':8080'
+
+lsof가 설치된 환경에서는 다음 명령도 사용할 수 있다.
+
+    lsof -nP -iTCP:8080 -sTCP:LISTEN
+
+Docker Desktop 환경에서는 호스트 포트 전달 방식에 따라
+WSL 내부의 ss 출력만으로 Windows 측 점유 프로세스를
+모두 확인하지 못할 수 있다.
+
+### 3단계: 기존 컨테이너 확인
+
+    docker ps -a
+
+기존 codyssey-web 컨테이너가 있으면
+이름 충돌이나 포트 점유 가능성을 확인한다.
+
+### 4단계: 충돌 해결
+
+기존 컨테이너를 더 이상 사용하지 않는 경우:
+
+    docker stop codyssey-web
+    docker rm codyssey-web
+
+기존 컨테이너를 유지해야 한다면
+새 이름과 다른 호스트 포트를 사용한다.
+
+    docker run -d --name codyssey-web-alt \
+      -p 8082:80 ia-codyssey-web:1.0
+
+검증:
+
+    curl -i http://localhost:8082
+
+일반 프로세스가 점유한 경우 프로세스의 용도를 확인하고
+해당 서비스를 정상적으로 종료하거나 다른 포트를 사용한다.
+
+이 절차는 포트 충돌에 대비한 진단 및 해결 방법이며,
+실제 포트 충돌이 발생했다고 주장하는 기록은 아니다.
